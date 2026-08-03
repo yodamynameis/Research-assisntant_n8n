@@ -1,0 +1,340 @@
+{
+  "name": "1 - Research Topic Registration",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1hZ8ulkoWmKHIqGncMuAPpxTw1zXOMJUGAx3YILrNa_8",
+          "mode": "list",
+          "cachedResultName": "Form Responses - Topics",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1hZ8ulkoWmKHIqGncMuAPpxTw1zXOMJUGAx3YILrNa_8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2048286919,
+          "mode": "list",
+          "cachedResultName": "Form Responses 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1hZ8ulkoWmKHIqGncMuAPpxTw1zXOMJUGAx3YILrNa_8/edit#gid=2048286919"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "1f7a2f2d-7717-4af7-bd42-a6da4125b914",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "HPAx4LGXp4UWJO2H",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9e22b220-5dbd-4bd8-a0c7-7ae88a44bb7c",
+              "name": "user_id",
+              "value": "={{ $json.Email }}",
+              "type": "string"
+            },
+            {
+              "id": "c06435ce-3d66-4224-8deb-743aa97329f3",
+              "name": "name",
+              "value": "={{ $json.Name }}",
+              "type": "string"
+            },
+            {
+              "id": "e773ff4c-284f-4af7-b37b-4403a06dfadb",
+              "name": "email",
+              "value": "={{ $json.Email }}",
+              "type": "string"
+            },
+            {
+              "id": "8bf9a467-62cf-4ede-b3fa-021432cc1929",
+              "name": "topic",
+              "value": "={{ $json['Areas of Interest (Keywords)'] }}",
+              "type": "string"
+            },
+            {
+              "id": "d62d158f-62e6-49be-a364-8f7294409028",
+              "name": "date_registered",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "c539fd0e-4e79-4135-a521-bb21b0bb7f9f",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "2101f224-0daa-4053-8906-355f40e82f3a",
+              "leftValue": "={{ $json.email }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "c6422ea0-7fb7-40a5-b0c8-e2455311e2cf",
+              "leftValue": "={{ $json.topic }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        416,
+        0
+      ],
+      "id": "5f4c3859-48cb-44bd-98b7-b590eee86063",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1vxcXOVr4bTpC6wO8TLKCb2BQeTOit2voo_bAH6YeJY8",
+          "mode": "list",
+          "cachedResultName": "Research Assistant DB",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1vxcXOVr4bTpC6wO8TLKCb2BQeTOit2voo_bAH6YeJY8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "topics",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1vxcXOVr4bTpC6wO8TLKCb2BQeTOit2voo_bAH6YeJY8/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "user_id": "={{ $json.user_id }}",
+            "name": "={{ $json.name }}",
+            "email": "={{ $json.email }}",
+            "topic": "={{ $json.topic }}",
+            "date_registered": "={{ $json.date_registered }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "user_id",
+              "displayName": "user_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "topic",
+              "displayName": "topic",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "date_registered",
+              "displayName": "date_registered",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        624,
+        -96
+      ],
+      "id": "c4650755-814f-423f-acdd-d3738cd883d3",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "kBtIv7Wr3vqe6igw",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.email }}",
+        "subject": "Registration for research updates",
+        "message": "=<p>Hi {{ $json.name }},</p>\n\n<p>You're now registered to receive AI-curated research updates on: <strong>{{ $json.topic }}</strong></p>\n\n<p>We'll search academic databases, summarize new papers matching your interests, and send you a weekly digest — so you never miss relevant research.</p>\n\n<p>Thanks for signing up!</p>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        912,
+        -176
+      ],
+      "id": "8b8b8339-8d9c-4be8-9bcc-11b7fca4a685",
+      "name": "Send a message",
+      "webhookId": "1bf4b4c8-caab-41f4-a5ff-069a2b55a8db",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "fdGJn93SQrEM59qz",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        624,
+        96
+      ],
+      "id": "dbe0135b-1c01-4246-b65a-fe787c5c0545",
+      "name": "No Operation, do nothing"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "3d4e2ac9-708f-4e52-87cf-e2fbf513220d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "715528d30c4fd6bdf4683ad45ea1b006eb38a2acd4bcd6094768fafc1b194762"
+  },
+  "nodeGroups": [],
+  "id": "l5KWckJwxlINkqwO",
+  "tags": []
+}
