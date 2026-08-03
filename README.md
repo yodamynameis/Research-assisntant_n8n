@@ -106,10 +106,6 @@ Full problem analysis, architecture rationale, and per-workflow breakdowns (incl
 
 ---
 
-## Demo
-
-> 📎 *Insert demo video link here once recorded.*
-
 ---
 
 ## Author
